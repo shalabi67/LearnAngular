@@ -30,7 +30,7 @@ export class LessonsListComponent implements OnInit, Observer {
 
   notify(data: Lesson[]) {
     console.log('LessonsListComponent notified');
-    this.lessons = data;
+    this.lessons = data.slice(0);
   }
 
 
