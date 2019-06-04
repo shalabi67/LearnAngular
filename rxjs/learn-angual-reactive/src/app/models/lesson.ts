@@ -1,5 +1,6 @@
 export interface Lesson {
   id: Number;
   description: String;
-  duration: String;
+  duration?: String;
+  completed?: boolean;
 }

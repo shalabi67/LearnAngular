@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {globalEventBus, Observer} from "../event-bus-experiments/event-bus";
+import {ADD_NEW_LESSON, globalEventBus, LESSONS_LIST_AVAILABLE, Observer} from "../event-bus-experiments/event-bus";
 import {Lesson} from "../models/lesson";
 
 @Component({
@@ -12,7 +12,16 @@ export class LessonsListComponent implements OnInit, Observer {
 
   constructor() {
     console.log('LessonsListComponent register itself.')
-    globalEventBus.registerObserver(this);
+    globalEventBus.registerObserver(LESSONS_LIST_AVAILABLE, this);
+
+    globalEventBus.registerObserver(ADD_NEW_LESSON, {
+      notify: lessonText => {
+        this.lessons.push({
+          id: Math.random(),
+          description: lessonText
+        })
+      }
+    });
   }
 
   ngOnInit() {
@@ -24,4 +33,10 @@ export class LessonsListComponent implements OnInit, Observer {
     this.lessons = data;
   }
 
+
+  toggleLessonViewed(lesson: Lesson) {
+    console.log('LessonsListComponent toggling lesson');
+    lesson.completed = !lesson.completed;
+
+  }
 }
