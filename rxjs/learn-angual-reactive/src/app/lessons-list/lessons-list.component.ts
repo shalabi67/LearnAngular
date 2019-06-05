@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ADD_NEW_LESSON, globalEventBus, LESSONS_LIST_AVAILABLE, Observer} from "../event-bus-experiments/event-bus";
 import {Lesson} from "../models/lesson";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'lessons-list',
@@ -38,5 +39,9 @@ export class LessonsListComponent implements OnInit, Observer {
     console.log('LessonsListComponent toggling lesson');
     lesson.completed = !lesson.completed;
 
+  }
+
+  delete(lessonToDelete: Lesson) {
+    _.remove(this.lessons, lesson => lesson.id === lessonToDelete.id);
   }
 }
