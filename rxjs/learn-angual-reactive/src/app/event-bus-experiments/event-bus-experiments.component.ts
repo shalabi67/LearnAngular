@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ADD_NEW_LESSON, globalEventBus, LESSONS_LIST_AVAILABLE} from "./event-bus";
 import {lessonsData} from "../models/lessons-data";
 import {Lesson} from "../models/lesson";
+import {lessonsStore} from "../datalayer/lessons-store";
 
 @Component({
   selector: 'event-bus-experements',
@@ -15,28 +16,31 @@ export class EventBusExperimentsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('EventBusExperimentsComponent broadcasts.');
 
-    this.lessons = lessonsData.slice(0);
+    console.log('Top level component broadcasted all lessons ...');
 
-    globalEventBus.notifyObservers(LESSONS_LIST_AVAILABLE,
-      this.lessons);
+    lessonsStore.initializeLessonsList(lessonsData.slice(0));
 
-    //simulate dding new events
     setTimeout(() => {
-      this.lessons.push({
-        id: Math.random(),
-        description: 'New lesson from backend.'
-      });
 
-      globalEventBus.notifyObservers(LESSONS_LIST_AVAILABLE, this.lessons);
+      const newLesson = {
+        id: Math.random(),
+        description: 'New lesson arriving from the backend'
+      };
+
+      lessonsStore.addLesson(newLesson);
 
     }, 10000);
+
   }
 
   addLesson(lessonText: string) {
-    console.log("EventBusExperimentsComponent lesson added event");
-    globalEventBus.notifyObservers(ADD_NEW_LESSON, lessonText);
+    const newLesson = {
+      id: Math.random(),
+      description: lessonText
+    };
+
+    lessonsStore.addLesson(newLesson);
   }
 
 }
