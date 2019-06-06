@@ -24,7 +24,7 @@ export class EventBusExperimentsComponent implements OnInit {
     setTimeout(() => {
 
       const newLesson = {
-        id: Math.random(),
+        id: Math.random().toString(),
         description: 'New lesson arriving from the backend'
       };
 
@@ -36,7 +36,7 @@ export class EventBusExperimentsComponent implements OnInit {
 
   addLesson(lessonText: string) {
     const newLesson = {
-      id: Math.random(),
+      id: Math.random().toString(),
       description: lessonText
     };
 
