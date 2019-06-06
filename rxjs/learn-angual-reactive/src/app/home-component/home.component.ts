@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFireDatabase} from "@angular/fire/database";
 import {Lesson} from "../models/lesson";
 import {Course} from "../models/Course";
+import {CoursesService} from "../services/courses.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'home-component',
@@ -10,28 +11,16 @@ import {Course} from "../models/Course";
 })
 export class HomeComponent implements OnInit {
 
-  courses: Course[];
-  latestLessons: Lesson[];
+  courses$: Observable<Course[]>;
+  latestLessons$: Observable<Lesson[]>;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(private coursesService : CoursesService) {
 
   }
 
   ngOnInit() {
-
-    this.db.list('courses')
-      .valueChanges()
-      //.do(console.log)
-      .subscribe(
-        (data:Course[]) => this.courses = data
-      );
-
-    this.db.list('lessons', ref => ref.orderByKey().limitToLast(10))
-      .valueChanges()
-      //.do(console.log)
-      .subscribe(
-        (data:Lesson[]) => this.latestLessons = data
-      );
+    this.courses$ = this.coursesService.findAllCourses();
+    this.latestLessons$ = this.coursesService.findLatestLessons();
   }
 
 }

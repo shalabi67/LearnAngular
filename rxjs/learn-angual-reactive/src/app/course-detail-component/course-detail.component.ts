@@ -4,6 +4,7 @@ import {AngularFireDatabase} from "@angular/fire/database";
 import {ActivatedRoute} from "@angular/router";
 import {Course} from "../models/Course";
 import {map} from 'rxjs/operators';
+import {CoursesService} from "../services/courses.service";
 
 @Component({
   selector: 'course-detail-component',
@@ -15,7 +16,8 @@ export class CourseDetailComponent implements OnInit {
   course: Course;
   lessons: Lesson[];
 
-  constructor(private route: ActivatedRoute, private db: AngularFireDatabase) {
+  constructor(private route: ActivatedRoute,
+              private coursesService : CoursesService) {
 
 
     route.params
@@ -23,30 +25,16 @@ export class CourseDetailComponent implements OnInit {
 
         const courseUrl = params['id'];
 
-        this.db.list('courses', ref => ref.orderByChild('url').equalTo(courseUrl))
-          .snapshotChanges()
-          .pipe(
-            map( data => data[0])
-          )
+        this.coursesService.findCourseByUrl(courseUrl)
           .subscribe(data => {
-            this.course = <Course>{
-              id: data.payload.key,
-              ...data.payload.val()
-            };
+            this.course = data;
 
-            this.db.list('lessons', ref => ref.orderByChild('courseId').equalTo(data.payload.key))
-              .snapshotChanges()
-              .subscribe(lessons => {
-                this.lessons = lessons.map(data => {
-                  return <Lesson>{
-                    id: data.payload.key,
-                    ...data.payload.val()
-                  }
-                });
-              });
+            this.coursesService.findCourseLessons(this.course.id)
+              .subscribe(lessons => this.lessons = lessons);
           });
 
       });
+
 
   }
 
