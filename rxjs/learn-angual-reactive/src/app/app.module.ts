@@ -18,6 +18,9 @@ import {AngularFireDatabaseModule} from "@angular/fire/database";
 import {firebaseConfig} from "../environments/firebase.config";
 import {CoursesService} from "./services/courses.service";
 import { CoursesListComponent } from './courses-list/courses-list.component';
+import { TopMenuComponent } from './top-menu/top-menu.component';
+import { CourseDetailHeaderComponent } from './course-detail-header/course-detail-header.component';
+import { NewsletterComponent } from './newsletter/newsletter.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { CoursesListComponent } from './courses-list/courses-list.component';
     LessonsCounterComponent,
     HomeComponent,
     CourseDetailComponent,
-    CoursesListComponent
+    CoursesListComponent,
+    TopMenuComponent,
+    CourseDetailHeaderComponent,
+    NewsletterComponent
   ],
   imports: [
     BrowserModule,

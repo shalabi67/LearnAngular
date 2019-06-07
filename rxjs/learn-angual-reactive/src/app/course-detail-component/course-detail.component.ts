@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Course} from "../models/Course";
 import {map} from 'rxjs/operators';
 import {CoursesService} from "../services/courses.service";
+import {NewsletterService} from "../services/newsletter.service";
 
 @Component({
   selector: 'course-detail-component',
@@ -17,7 +18,8 @@ export class CourseDetailComponent implements OnInit {
   lessons: Lesson[];
 
   constructor(private route: ActivatedRoute,
-              private coursesService : CoursesService) {
+              private coursesService: CoursesService,
+              private newsletterService: NewsletterService) {
 
 
     route.params
@@ -40,6 +42,16 @@ export class CourseDetailComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  onSubscribe(email:string) {
+    this.newsletterService.subscribeToNewsletter(email)
+      .subscribe(
+        () => {
+          alert('Subscription successful ...');
+        },
+        console.error
+      );
   }
 
 }
