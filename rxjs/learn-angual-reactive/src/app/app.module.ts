@@ -21,6 +21,8 @@ import { CoursesListComponent } from './courses-list/courses-list.component';
 import { TopMenuComponent } from './top-menu/top-menu.component';
 import { CourseDetailHeaderComponent } from './course-detail-header/course-detail-header.component';
 import { NewsletterComponent } from './newsletter/newsletter.component';
+import { LoginComponent } from './login/login.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -34,11 +36,14 @@ import { NewsletterComponent } from './newsletter/newsletter.component';
     CoursesListComponent,
     TopMenuComponent,
     CourseDetailHeaderComponent,
-    NewsletterComponent
+    NewsletterComponent,
+
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,

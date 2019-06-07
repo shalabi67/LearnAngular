@@ -6,6 +6,7 @@ import {Course} from "../models/Course";
 import {map} from 'rxjs/operators';
 import {CoursesService} from "../services/courses.service";
 import {NewsletterService} from "../services/newsletter.service";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'course-detail-component',
@@ -19,10 +20,12 @@ export class CourseDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private coursesService: CoursesService,
-              private newsletterService: NewsletterService) {
+              private newsletterService: NewsletterService,
+              private userService: UserService) {
+  }
 
-
-    route.params
+  ngOnInit() {
+    this.route.params
       .subscribe( params => {
 
         const courseUrl = params['id'];
@@ -36,11 +39,6 @@ export class CourseDetailComponent implements OnInit {
           });
 
       });
-
-
-  }
-
-  ngOnInit() {
 
   }
 
